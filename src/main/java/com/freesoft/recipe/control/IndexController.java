@@ -4,9 +4,11 @@ import com.freesoft.recipe.domain.Category;
 import com.freesoft.recipe.domain.UnitMeasure;
 import com.freesoft.recipe.repository.CategoryRepository;
 import com.freesoft.recipe.repository.UnitMeasureRepository;
+import com.freesoft.recipe.service.RecipeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Optional;
@@ -16,24 +18,16 @@ public class IndexController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
 
-    private CategoryRepository categoryRepository;
-    private UnitMeasureRepository unitMeasureRepository;
+    private final RecipeService recipeService;
 
-    protected IndexController(CategoryRepository categoryRepository,
-                              UnitMeasureRepository unitMeasureRepository) {
-        this.categoryRepository = categoryRepository;
-        this.unitMeasureRepository = unitMeasureRepository;
+    protected IndexController(RecipeService recipeService) {
+        this.recipeService = recipeService;
     }
 
     @RequestMapping({"", "/", "/index"})
-    public String getIndexPage() {
-
-        Optional<Category> optionalCategory = categoryRepository.findByDescription("American");
-        Optional<UnitMeasure> optionalUnitMeasure = unitMeasureRepository.findByDescription("Teaspoon");
-
-        System.out.print("Category ID is: " + optionalCategory.get().getId());
-        System.out.println("Unit Measure is: " + optionalUnitMeasure.get().getId());
-
+    public String getIndexPage(Model model) {
+        LOGGER.debug("Here it's index!");
+        model.addAttribute("recipes", recipeService.getRecipes());
         return "index";
     }
 
