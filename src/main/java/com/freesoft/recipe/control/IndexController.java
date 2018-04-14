@@ -5,6 +5,7 @@ import com.freesoft.recipe.domain.UnitMeasure;
 import com.freesoft.recipe.repository.CategoryRepository;
 import com.freesoft.recipe.repository.UnitMeasureRepository;
 import com.freesoft.recipe.service.RecipeService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -13,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Optional;
 
+@Slf4j
 @Controller
 public class IndexController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
 
     private final RecipeService recipeService;
 
@@ -26,7 +27,7 @@ public class IndexController {
 
     @RequestMapping({"", "/", "/index"})
     public String getIndexPage(Model model) {
-        LOGGER.debug("Here it's index!");
+        log.debug("Here it's index!");
         model.addAttribute("recipes", recipeService.getRecipes());
         return "index";
     }
