@@ -1,11 +1,11 @@
 package com.freesoft.recipe.control;
 
+import com.freesoft.recipe.command.RecipeCommand;
 import com.freesoft.recipe.service.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -25,6 +25,19 @@ public class RecipeController {
         log.debug("Search a recipe by Id");
         model.addAttribute("recipe", recipeService.findById(id));
         return "show";
+    }
+
+    @RequestMapping("/recipe/new")
+    public String newRecipe(Model model) {
+        model.addAttribute("recipe", new RecipeCommand());
+        return "recipe-form";
+    }
+
+    @PostMapping
+    @RequestMapping("recipe")
+    public String saveOrUpdate(@ModelAttribute RecipeCommand command) {
+        RecipeCommand savedCommand = recipeService.saveRecipeCommand(command);
+        return "redirect:/recipe/show/" + savedCommand.getId();
     }
 
 }
