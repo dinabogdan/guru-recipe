@@ -4,6 +4,7 @@ import com.freesoft.recipe.command.RecipeCommand;
 import com.freesoft.recipe.converter.command2entity.RecipeCommandToRecipe;
 import com.freesoft.recipe.converter.entity2command.RecipeToRecipeCommand;
 import com.freesoft.recipe.domain.Recipe;
+import com.freesoft.recipe.exception.NotFoundException;
 import com.freesoft.recipe.repository.RecipeRepository;
 import com.freesoft.recipe.service.RecipeService;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,7 @@ public class RecipeServiceImpl implements RecipeService {
         log.debug("Search recipe by ID");
         Optional<Recipe> recipe = recipeRepository.findById(id);
         if (!recipe.isPresent()) {
-            throw new RuntimeException("Recipe not found exception");
+            throw new NotFoundException("Recipe not found exception");
         }
         return recipeToRecipeCommand.convert(recipe.get());
     }

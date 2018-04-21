@@ -5,6 +5,7 @@ import com.freesoft.recipe.converter.command2entity.IngredientCommandToIngredien
 import com.freesoft.recipe.converter.entity2command.IngredientToIngredientCommand;
 import com.freesoft.recipe.domain.Ingredient;
 import com.freesoft.recipe.domain.Recipe;
+import com.freesoft.recipe.exception.NotFoundException;
 import com.freesoft.recipe.repository.RecipeRepository;
 import com.freesoft.recipe.repository.UnitMeasureRepository;
 import com.freesoft.recipe.service.IngredientService;
@@ -38,6 +39,7 @@ public class IngredientServiceImpl implements IngredientService {
         Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
         if (!recipeOptional.isPresent()) {
             log.error("recipe id not found {}", recipeId);
+            throw new NotFoundException("Recipe with recipeID " + recipeId + " not found");
         }
 
         Recipe recipe = recipeOptional.get();
@@ -50,6 +52,7 @@ public class IngredientServiceImpl implements IngredientService {
 
         if (!ingredientCommandOptional.isPresent()) {
             log.error("ingredient id not found {}", ingredientId);
+            throw new NotFoundException("Ingredient with ingredientId " + ingredientId + " not found");
         }
 
         return ingredientCommandOptional.get();
@@ -75,7 +78,7 @@ public class IngredientServiceImpl implements IngredientService {
                 ingredientFound.setAmount(ingredientCommand.getAmount());
                 ingredientFound.setUom(uomRepository
                         .findById(ingredientCommand.getUom().getId())
-                        .orElseThrow(() -> new RuntimeException("UnitOfMeasure not found")));
+                        .orElseThrow(() -> new NotFoundException("UnitOfMeasure not found")));
             } else {
                 Ingredient ingredientToSave = ingredientCommandToIngredient.convert(ingredientCommand);
                 ingredientToSave.setRecipe(recipe);
