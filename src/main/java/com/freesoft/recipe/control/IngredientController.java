@@ -25,10 +25,17 @@ public class IngredientController {
         return "ingredients-list";
     }
 
-    @GetMapping("/recipe/{recipeId}/ingredient{ingredientId}")
+    @GetMapping("/recipe/{recipeId}/ingredient/{ingredientId}/show")
     public String showIngredientById(@PathVariable String recipeId, @PathVariable String ingredientId,
                                      Model model) {
-        //model.addAttribute("ingredient", )
+        model.addAttribute("ingredient",
+                recipeService
+                        .findById(Long.valueOf(recipeId))
+                        .getIngredients()
+                        .stream()
+                        .filter(i -> i.getId().equals(Long.valueOf(ingredientId)))
+                        .findFirst()
+                        .get());
         return "show-ingredient";
     }
 }
