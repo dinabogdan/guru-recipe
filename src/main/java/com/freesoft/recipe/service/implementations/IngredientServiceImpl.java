@@ -5,7 +5,6 @@ import com.freesoft.recipe.converter.command2entity.IngredientCommandToIngredien
 import com.freesoft.recipe.converter.entity2command.IngredientToIngredientCommand;
 import com.freesoft.recipe.domain.Ingredient;
 import com.freesoft.recipe.domain.Recipe;
-import com.freesoft.recipe.repository.IngredientRepository;
 import com.freesoft.recipe.repository.RecipeRepository;
 import com.freesoft.recipe.repository.UnitMeasureRepository;
 import com.freesoft.recipe.service.IngredientService;
@@ -25,9 +24,9 @@ public class IngredientServiceImpl implements IngredientService {
     private final UnitMeasureRepository uomRepository;
 
     protected IngredientServiceImpl(final IngredientToIngredientCommand ingredientConverter,
-                                  final RecipeRepository recipeRepository,
-                                  final IngredientCommandToIngredient ingredientCommandToIngredient,
-                                  final UnitMeasureRepository uomRepository) {
+                                    final RecipeRepository recipeRepository,
+                                    final IngredientCommandToIngredient ingredientCommandToIngredient,
+                                    final UnitMeasureRepository uomRepository) {
         this.ingredientConverter = ingredientConverter;
         this.recipeRepository = recipeRepository;
         this.ingredientCommandToIngredient = ingredientCommandToIngredient;
@@ -93,8 +92,6 @@ public class IngredientServiceImpl implements IngredientService {
             if (!savedIngredientOptional.isPresent()) {
                 savedIngredientOptional = savedRecipe.getIngredients().stream()
                         .filter(i -> i.getDescription().equals(ingredientCommand.getDescription()))
-                        .filter(i -> i.getAmount().equals(ingredientCommand.getAmount()))
-                        .filter(i -> i.getUom().equals(ingredientCommand.getUom()))
                         .findFirst();
             }
             return ingredientConverter.convert(savedIngredientOptional.get());

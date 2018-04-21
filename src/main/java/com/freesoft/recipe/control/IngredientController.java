@@ -1,6 +1,8 @@
 package com.freesoft.recipe.control;
 
 import com.freesoft.recipe.command.IngredientCommand;
+import com.freesoft.recipe.command.RecipeCommand;
+import com.freesoft.recipe.command.UnitMeasureCommand;
 import com.freesoft.recipe.service.IngredientService;
 import com.freesoft.recipe.service.RecipeService;
 import com.freesoft.recipe.service.UomService;
@@ -59,5 +61,16 @@ public class IngredientController {
         log.debug("saved recipe with id {}", savedIngredient.getRecipeId());
         log.debug("saved ingredient with id {}", savedIngredient.getId());
         return "redirect:/recipe/" + savedIngredient.getRecipeId() + "/ingredient/" + savedIngredient.getId() + "/show";
+    }
+
+    @GetMapping("/recipe/{recipeId}/ingredient/new")
+    public String showIngredientForm(@PathVariable String recipeId, Model model) {
+        RecipeCommand recipeCommand = recipeService.findById(Long.valueOf(recipeId));
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.valueOf(recipeId));
+        model.addAttribute("ingredient", ingredientCommand);
+        ingredientCommand.setUom(new UnitMeasureCommand());
+        model.addAttribute("uomList", uomService.listAllUoms());
+        return "ingredient-form";
     }
 }
