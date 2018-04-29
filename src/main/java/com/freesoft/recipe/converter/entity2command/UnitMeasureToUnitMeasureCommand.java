@@ -2,7 +2,6 @@ package com.freesoft.recipe.converter.entity2command;
 
 import com.freesoft.recipe.command.CategoryCommand;
 import com.freesoft.recipe.command.UnitMeasureCommand;
-import com.freesoft.recipe.domain.Category;
 import com.freesoft.recipe.domain.UnitMeasure;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
