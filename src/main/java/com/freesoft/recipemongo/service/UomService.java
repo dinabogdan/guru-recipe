@@ -1,10 +1,9 @@
 package com.freesoft.recipemongo.service;
 
 import com.freesoft.recipemongo.command.UnitMeasureCommand;
-
-import java.util.Set;
+import reactor.core.publisher.Flux;
 
 public interface UomService {
 
-    Set<UnitMeasureCommand> listAllUoms();
+    Flux<UnitMeasureCommand> listAllUoms();
 }

@@ -2,11 +2,12 @@ package com.freesoft.recipemongo.service;
 
 
 import com.freesoft.recipemongo.command.IngredientCommand;
+import reactor.core.publisher.Mono;
 
 public interface IngredientService {
 
-    IngredientCommand findByRecipeIdAndIngredientId(Long recipeId, Long ingredientId);
+    Mono<IngredientCommand> findByRecipeIdAndIngredientId(String recipeId, String ingredientId);
 
-    IngredientCommand saveIngredient(IngredientCommand ingredientCommand);
+    Mono<IngredientCommand> saveIngredient(IngredientCommand ingredientCommand);
 
 }

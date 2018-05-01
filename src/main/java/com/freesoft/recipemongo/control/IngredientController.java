@@ -42,7 +42,7 @@ public class IngredientController {
     public String showIngredientById(@PathVariable String recipeId, @PathVariable String ingredientId,
                                      Model model) {
         model.addAttribute("ingredient",
-                ingredientService.findByRecipeIdAndIngredientId(Long.valueOf(recipeId), Long.valueOf(ingredientId)));
+                ingredientService.findByRecipeIdAndIngredientId(recipeId, ingredientId));
         return "show-ingredient";
     }
 
@@ -50,7 +50,7 @@ public class IngredientController {
     public String showUpdateForm(@PathVariable String recipeId, @PathVariable String ingredientId,
                                  Model model) {
         model.addAttribute("ingredient",
-                ingredientService.findByRecipeIdAndIngredientId(Long.valueOf(recipeId), Long.valueOf(ingredientId)));
+                ingredientService.findByRecipeIdAndIngredientId(recipeId, ingredientId));
         model.addAttribute("uomList", uomService.listAllUoms());
         return "ingredient-form";
     }
@@ -70,7 +70,7 @@ public class IngredientController {
         ingredientCommand.setRecipeId(recipeId);
         model.addAttribute("ingredient", ingredientCommand);
         ingredientCommand.setUom(new UnitMeasureCommand());
-        model.addAttribute("uomList", uomService.listAllUoms());
+        model.addAttribute("uomList", uomService.listAllUoms().collectList().block());
         return "ingredient-form";
     }
 }
