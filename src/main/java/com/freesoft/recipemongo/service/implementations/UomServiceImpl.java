@@ -1,8 +1,8 @@
 package com.freesoft.recipemongo.service.implementations;
 
-import com.freesoft.recipe.repository.UnitMeasureRepository;
 import com.freesoft.recipemongo.command.UnitMeasureCommand;
 import com.freesoft.recipemongo.converter.entity2command.UnitMeasureToUnitMeasureCommand;
+import com.freesoft.recipemongo.repository.UnitMeasureRepository;
 import com.freesoft.recipemongo.service.UomService;
 import org.springframework.stereotype.Component;
 

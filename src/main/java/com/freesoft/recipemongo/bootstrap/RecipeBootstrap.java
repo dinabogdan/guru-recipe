@@ -32,6 +32,58 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         this.unitMeasureRepository = unitMeasureRepository;
     }
 
+    private void loadCategories() {
+        Category category1 = new Category();
+        category1.setDescription("American");
+        categoryRepository.save(category1);
+
+        Category category2 = new Category();
+        category2.setDescription("Italian");
+        categoryRepository.save(category2);
+
+        Category category3 = new Category();
+        category3.setDescription("Mexican");
+        categoryRepository.save(category3);
+
+        Category category4 = new Category();
+        category4.setDescription("Fast food");
+        categoryRepository.save(category4);
+    }
+
+    private void loadUoms() {
+        UnitMeasure uom1 = new UnitMeasure();
+        uom1.setDescription("Teaspoon");
+        unitMeasureRepository.save(uom1);
+
+        UnitMeasure uom2 = new UnitMeasure();
+        uom2.setDescription("Tablespoon");
+        unitMeasureRepository.save(uom2);
+
+        UnitMeasure uom3 = new UnitMeasure();
+        uom3.setDescription("Cup");
+        unitMeasureRepository.save(uom3);
+
+        UnitMeasure uom4 = new UnitMeasure();
+        uom4.setDescription("Pinch");
+        unitMeasureRepository.save(uom4);
+
+        UnitMeasure uom5 = new UnitMeasure();
+        uom5.setDescription("Ounce");
+        unitMeasureRepository.save(uom5);
+
+        UnitMeasure uom6 = new UnitMeasure();
+        uom6.setDescription("Each");
+        unitMeasureRepository.save(uom6);
+
+        UnitMeasure uom7 = new UnitMeasure();
+        uom7.setDescription("Pint");
+        unitMeasureRepository.save(uom7);
+
+        UnitMeasure uom8 = new UnitMeasure();
+        uom8.setDescription("Dash");
+        unitMeasureRepository.save(uom8);
+    }
+
     private List<Recipe> getRecipes() {
         List<Recipe> recipes = new ArrayList<>(2);
         Optional<UnitMeasure> eachUomOptional = unitMeasureRepository.findByDescription("Each");
@@ -112,7 +164,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
                 "Read more: http://www.simplyrecipes.com/recipes/perfect_guacamole/#ixzz4jvoun5ws");
 
         guacRecipe.setNotes(guacNotes);
-        guacNotes.setRecipe(guacRecipe);
+        //guacNotes.setRecipe(guacRecipe);
 
         //very redundent - could add helper method, and make this simpler
         guacRecipe.addIngredient(new Ingredient("ripe avocados", new BigDecimal(2), eachUom));
@@ -165,7 +217,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
                 "Read more: http://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/#ixzz4jvu7Q0MJ");
 
         tacosRecipe.setNotes(tacoNotes);
-        tacoNotes.setRecipe(tacosRecipe);
+        //tacoNotes.setRecipe(tacosRecipe);
 
         tacosRecipe.addIngredient(new Ingredient("Ancho Chili Powder", new BigDecimal(2), tableSpoonUom));
         tacosRecipe.addIngredient(new Ingredient("Dried Oregano", new BigDecimal(1), teaSpoonUom));
@@ -202,6 +254,8 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        loadCategories();
+        loadUoms();
         recipeRepository.saveAll(getRecipes());
         log.debug("Loading bootstrap data");
     }

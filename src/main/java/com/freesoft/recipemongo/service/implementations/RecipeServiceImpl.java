@@ -40,7 +40,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public RecipeCommand findById(Long id) {
+    public RecipeCommand findById(String id) {
         log.debug("Search recipe by ID");
         Optional<Recipe> recipe = recipeRepository.findById(String.valueOf(id));
         if (!recipe.isPresent()) {

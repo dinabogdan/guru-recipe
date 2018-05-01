@@ -33,7 +33,7 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
         }
 
         final RecipeCommand command = new RecipeCommand();
-        command.setId(Long.valueOf(recipe.getId()));
+        command.setId(recipe.getId());
         command.setCookTime(recipe.getCookTime());
         command.setPrepTime(recipe.getPrepTime());
         command.setDescription(recipe.getDescription());

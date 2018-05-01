@@ -1,7 +1,7 @@
-package com.freesoft.recipe.control;
+package com.freesoft.recipemongo.control;
 
-import com.freesoft.recipe.command.RecipeCommand;
-import com.freesoft.recipe.service.RecipeService;
+import com.freesoft.recipemongo.command.RecipeCommand;
+import com.freesoft.recipemongo.service.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,7 @@ public class RecipeController {
     }
 
     @GetMapping("/recipe/{id}/show")
-    public String showRecipe(@PathVariable Long id, Model model) {
+    public String showRecipe(@PathVariable String id, Model model) {
         log.debug("Search a recipe by Id");
         model.addAttribute("recipe", recipeService.findById(id));
         return "show";
@@ -39,7 +39,7 @@ public class RecipeController {
 
     @GetMapping("recipe/{id}/update")
     public String updateRecipe(@PathVariable String id, Model model) {
-        model.addAttribute("recipe", recipeService.findById(new Long(id)));
+        model.addAttribute("recipe", recipeService.findById(id));
         return "recipe-form";
     }
 

@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class UnitMeasureCommand {
-    private Long id;
+    private String id;
     private String description;
 }

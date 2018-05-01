@@ -81,7 +81,7 @@ public class IngredientServiceImpl implements IngredientService {
                         .orElseThrow(() -> new NotFoundException("UnitOfMeasure not found")));
             } else {
                 Ingredient ingredientToSave = ingredientCommandToIngredient.convert(ingredientCommand);
-                ingredientToSave.setRecipe(recipe);
+                //ingredientToSave.setRecipe(recipe);
                 recipe.addIngredient(ingredientToSave);
             }
 
