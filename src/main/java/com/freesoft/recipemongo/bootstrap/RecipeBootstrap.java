@@ -5,7 +5,11 @@ import com.freesoft.recipemongo.domain.*;
 import com.freesoft.recipemongo.repository.CategoryRepository;
 import com.freesoft.recipemongo.repository.RecipeRepository;
 import com.freesoft.recipemongo.repository.UnitMeasureRepository;
+import com.freesoft.recipemongo.repository.reactive.CategoryReactiveRepo;
+import com.freesoft.recipemongo.repository.reactive.RecipeReactiveRepo;
+import com.freesoft.recipemongo.repository.reactive.UnitMeasureReactiveRepo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -23,6 +27,15 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     private final CategoryRepository categoryRepository;
     private final RecipeRepository recipeRepository;
     private final UnitMeasureRepository unitMeasureRepository;
+
+    @Autowired
+    UnitMeasureReactiveRepo unitMeasureReactiveRepo;
+
+    @Autowired
+    CategoryReactiveRepo categoryReactiveRepo;
+
+    @Autowired
+    RecipeReactiveRepo recipeReactiveRepo;
 
     protected RecipeBootstrap(CategoryRepository categoryRepository,
                               RecipeRepository recipeRepository,
@@ -258,5 +271,10 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         loadUoms();
         recipeRepository.saveAll(getRecipes());
         log.debug("Loading bootstrap data");
+
+        log.error("###################");
+        log.error("UOM Count: " + unitMeasureReactiveRepo.count().block().toString());
+        log.error("Category Count: " + categoryReactiveRepo.count().block().toString());
+        log.error("Recipe Count: " + recipeReactiveRepo.count().block().toString());
     }
 }
