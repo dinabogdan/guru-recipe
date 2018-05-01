@@ -2,16 +2,20 @@ package com.freesoft.recipemongo.service;
 
 import com.freesoft.recipemongo.command.RecipeCommand;
 import com.freesoft.recipemongo.domain.Recipe;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.Set;
 
 public interface RecipeService {
 
-    Set<Recipe> getRecipes();
+    Flux<Recipe> getRecipes();
 
-    RecipeCommand findById(String id);
+    Mono<Recipe> findById(String id);
 
-    RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand);
+    Mono<RecipeCommand> findCommandById(String id);
 
-    void deleteById(Long id);
+    Mono<RecipeCommand> saveRecipeCommand(RecipeCommand recipeCommand);
+
+    Mono<Void> deleteById(Long id);
 }

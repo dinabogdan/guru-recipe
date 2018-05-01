@@ -1,8 +1,8 @@
 package com.freesoft.recipemongo.control;
 
 import com.freesoft.recipemongo.command.IngredientCommand;
-import com.freesoft.recipemongo.command.RecipeCommand;
 import com.freesoft.recipemongo.command.UnitMeasureCommand;
+import com.freesoft.recipemongo.domain.Recipe;
 import com.freesoft.recipemongo.service.IngredientService;
 import com.freesoft.recipemongo.service.RecipeService;
 import com.freesoft.recipemongo.service.UomService;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @Controller
@@ -57,15 +58,15 @@ public class IngredientController {
 
     @PostMapping("/recipe/{recipeId}/ingredient")
     public String saveOrUpdate(@PathVariable String recipeId, @ModelAttribute IngredientCommand ingredientCommand) {
-        IngredientCommand savedIngredient = ingredientService.saveIngredient(ingredientCommand);
-        log.debug("saved recipe with id {}", savedIngredient.getRecipeId());
-        log.debug("saved ingredient with id {}", savedIngredient.getId());
-        return "redirect:/recipe/" + savedIngredient.getRecipeId() + "/ingredient/" + savedIngredient.getId() + "/show";
+        Mono<IngredientCommand> savedIngredient = ingredientService.saveIngredient(ingredientCommand);
+        log.debug("saved recipe with id {}", savedIngredient.block().getRecipeId());
+        log.debug("saved ingredient with id {}", savedIngredient.block().getId());
+        return "redirect:/recipe/" + savedIngredient.block().getRecipeId() + "/ingredient/" + savedIngredient.block().getId() + "/show";
     }
 
     @GetMapping("/recipe/{recipeId}/ingredient/new")
     public String showIngredientForm(@PathVariable String recipeId, Model model) {
-        RecipeCommand recipeCommand = recipeService.findById(recipeId);
+        Mono<Recipe> recipeCommand = recipeService.findById(recipeId);
         IngredientCommand ingredientCommand = new IngredientCommand();
         ingredientCommand.setRecipeId(recipeId);
         model.addAttribute("ingredient", ingredientCommand);

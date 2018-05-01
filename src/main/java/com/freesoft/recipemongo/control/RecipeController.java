@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -52,8 +53,8 @@ public class RecipeController {
             });
             return "recipe-form";
         }
-        RecipeCommand savedCommand = recipeService.saveRecipeCommand(command);
-        return "redirect:/recipe/" + savedCommand.getId() + "/show";
+        Mono<RecipeCommand> savedCommand = recipeService.saveRecipeCommand(command);
+        return "redirect:/recipe/" + savedCommand.block().getId() + "/show";
     }
 
     @GetMapping("/recipe/{id}/delete")
