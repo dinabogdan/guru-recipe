@@ -55,10 +55,11 @@ public class IngredientServiceImpl implements IngredientService {
             throw new NotFoundException("Ingredient with ingredientId " + ingredientId + " not found");
         }
 
+        IngredientCommand ingredientCommand = ingredientCommandOptional.get();
+        ingredientCommand.setRecipeId(recipe.getId());
         return ingredientCommandOptional.get();
     }
 
-    @Transactional
     @Override
     public IngredientCommand saveIngredient(IngredientCommand ingredientCommand) {
         Optional<Recipe> recipeOptional = recipeRepository.findById(String.valueOf(ingredientCommand.getRecipeId()));
